@@ -1,0 +1,15 @@
+.next
+node_modules
+.git
+.env*
+BACKUP_*
+SaaSBrain
+*.json
+!package.json
+!package-lock.json
+!components.json
+*.md
+*.txt
+Dockerfile*
+.dockerignore
+.gitignore
