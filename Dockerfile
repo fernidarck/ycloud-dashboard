@@ -1,14 +1,10 @@
-FROM node:20-alpine AS deps
+FROM node:20-alpine
 WORKDIR /app
+
 COPY package.json ./
 RUN npm install --legacy-peer-deps
 
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
 
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -23,17 +19,10 @@ ENV SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY
 ENV N8N_API_URL=$N8N_API_URL
 ENV N8N_API_KEY=$N8N_API_KEY
 ENV N8N_WORKFLOW_ID=$N8N_WORKFLOW_ID
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN npm run build
 
-FROM node:20-alpine AS runner
-WORKDIR /app
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
 EXPOSE 3000
-CMD ["node", "server.js"]
+CMD ["npm", "start"]
