@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/shared/lib/supabase'
+import { getSupabaseAdmin } from '@/shared/lib/supabase'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   const etiqueta = searchParams.get('etiqueta')
   const buscar = searchParams.get('buscar')
 
-  let query = supabaseAdmin.from('mensajes').select('telefono, mensaje, etiqueta, timestamp, agente').order('timestamp', { ascending: false })
+  let query = getSupabaseAdmin().from('mensajes').select('telefono, mensaje, etiqueta, timestamp, agente').order('timestamp', { ascending: false })
   if (agente) query = query.eq('agente', agente)
   if (etiqueta) query = query.eq('etiqueta', etiqueta)
   if (buscar) query = query.ilike('telefono', `%${buscar}%`)
@@ -25,7 +25,7 @@ export async function GET(request: Request) {
 
   const result = await Promise.all(
     Array.from(map.values()).map(async (conv) => {
-      const { count } = await supabaseAdmin.from('mensajes').select('*', { count: 'exact', head: true }).eq('telefono', conv.telefono)
+      const { count } = await getSupabaseAdmin().from('mensajes').select('*', { count: 'exact', head: true }).eq('telefono', conv.telefono)
       return { ...conv, total_mensajes: count ?? 0 }
     })
   )

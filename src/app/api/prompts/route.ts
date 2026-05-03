@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/shared/lib/supabase'
+import { getSupabaseAdmin } from '@/shared/lib/supabase'
 import { getSystemPrompt, updateSystemPrompt } from '@/shared/lib/n8n-api'
 import type { Agente } from '@/shared/types'
 
@@ -14,7 +14,7 @@ export async function GET(request: Request) {
 export async function PUT(request: Request) {
   const { agente, contenido, notas } = await request.json() as { agente: Agente; contenido: string; notas?: string }
   const contenidoActual = await getSystemPrompt(agente)
-  await supabaseAdmin.from('prompt_versiones').insert({ agente, contenido: contenidoActual, notas: notas ?? null })
+  await getSupabaseAdmin().from('prompt_versiones').insert({ agente, contenido: contenidoActual, notas: notas ?? null })
   await updateSystemPrompt(agente, contenido)
   return NextResponse.json({ ok: true })
 }

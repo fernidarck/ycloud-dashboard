@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/shared/lib/supabase'
+import { getSupabaseAdmin } from '@/shared/lib/supabase'
 
 export async function GET(request: Request, { params }: { params: Promise<{ telefono: string }> }) {
   const { telefono } = await params

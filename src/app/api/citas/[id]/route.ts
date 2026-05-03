@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/shared/lib/supabase'
+import { getSupabaseAdmin } from '@/shared/lib/supabase'
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -9,7 +9,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   const updates: Record<string, any> = {}
   for (const f of allowed) { if (f in body) updates[f] = body[f] }
 
-  const { data, error } = await supabaseAdmin.from('citas').update(updates).eq('id', id).select().single()
+  const { data, error } = await getSupabaseAdmin().from('citas').update(updates).eq('id', id).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json(data)
 }
