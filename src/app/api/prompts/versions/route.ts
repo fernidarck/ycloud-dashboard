@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/shared/lib/supabase'
 import { updateSystemPrompt } from '@/shared/lib/n8n-api'
