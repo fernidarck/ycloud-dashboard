@@ -25,4 +25,4 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["sh", "-c", "echo '=== CONTAINER STARTED ===' && node --version && echo '=== STARTING NEXT.JS ===' && npm start 2>&1"]
