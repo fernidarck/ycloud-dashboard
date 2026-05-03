@@ -25,4 +25,4 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 EXPOSE 3000
-CMD ["node", "-e", "require('http').createServer((req,res)=>res.end('container ok')).listen(3000,()=>console.log('UP on 3000'))"]
+CMD ["sh", "-c", "sleep 5 && echo 'ALIVE' && node -e \"require('http').createServer((req,res)=>res.end('ok')).listen(8080,()=>console.log('UP 8080'))\""]
