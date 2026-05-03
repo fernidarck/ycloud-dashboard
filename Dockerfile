@@ -25,4 +25,4 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 EXPOSE 3000
-CMD ["sh", "-c", "echo '=== CONTAINER STARTED ===' && node --version && echo '=== STARTING NEXT.JS ===' && npm start 2>&1"]
+CMD ["node", "-e", "require('http').createServer((req,res)=>res.end('container ok')).listen(3000,()=>console.log('UP on 3000'))"]
