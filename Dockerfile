@@ -4,6 +4,9 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install --legacy-peer-deps
 
+# Bust cache: update this label when source files change
+LABEL version="4.0.1"
+
 COPY . .
 
 ARG NEXT_PUBLIC_SUPABASE_URL
@@ -21,7 +24,6 @@ ENV N8N_API_KEY=$N8N_API_KEY
 ENV N8N_WORKFLOW_ID=$N8N_WORKFLOW_ID
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV BUILD_VERSION=v4.0
 
 RUN npm run build
 
